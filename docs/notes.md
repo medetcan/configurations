@@ -7,3 +7,11 @@
 * [shkm/dotfiles](https://github.com/shkm/dotfiles)
 * [millermedeiros/.vimrc](https://gist.github.com/millermedeiros/1262085)
 * [jorinvo/dotfiles](https://github.com/jorinvo/dotfiles)
+
+#### You Complete Issue
+* Execute following commands on listed path `~/.local/share/nvim/plugged/youcompleteme/` 
+    ~~~bash
+    git submodule sync --recursive
+    git submodule update --init --recursive
+    git submodule foreach --recursive git checkout --
+    ~~~
