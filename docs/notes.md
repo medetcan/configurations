@@ -6,3 +6,4 @@
 * [jethrosun/yavc](https://github.com/jethrosun/yavc)
 * [shkm/dotfiles](https://github.com/shkm/dotfiles)
 * [millermedeiros/.vimrc](https://gist.github.com/millermedeiros/1262085)
+* [jorinvo/dotfiles](https://github.com/jorinvo/dotfiles)

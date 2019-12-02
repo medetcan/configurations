@@ -5,8 +5,8 @@ set -o errexit
 
 OKAY=$'\u2714'
 FAILED=$'\u2715'
-SNAP="snap install_packages"
-APT="apt install_packages"
+SNAP="snap install"
+APT="apt install"
 
 source './packages.sh';
 
@@ -50,5 +50,5 @@ install_packages() {
 }
 
 display_packages
-install_packages packages
+install_packages 
 display_installed_packages
