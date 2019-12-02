@@ -3,10 +3,14 @@ set spell
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set nobackup
+set noswapfile
+set nowritebackup
 
 syntax on
 
 nnoremap <CR> :noh<CR><CR>
+map <C-n> :NERDTreeToggle<CR>
 
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'tpope/vim-fugitive'
@@ -22,6 +26,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'prabirshrestha/async.vim'
 Plug 'neomake/neomake'
 Plug 'jez/vim-better-sml'
+Plug 'valloric/youcompleteme'
 call plug#end()
 
 set statusline+=%#warningmsg#
