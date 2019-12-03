@@ -26,7 +26,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'prabirshrestha/async.vim'
 Plug 'neomake/neomake'
 Plug 'jez/vim-better-sml'
-Plug 'valloric/youcompleteme'
+Plug 'valloric/youcompleteme', { 'do': './install.sh --all --clang-completer' }
 call plug#end()
 
 set statusline+=%#warningmsg#
