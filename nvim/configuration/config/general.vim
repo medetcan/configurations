@@ -1,0 +1,9 @@
+syntax on
+set number
+set spell
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set nobackup
+set noswapfile
+set nowritebackup
