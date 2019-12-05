@@ -11,3 +11,5 @@ link_file() {
 }
 
 link_file TARGET LINK_NAME;
+
+exit 0;
