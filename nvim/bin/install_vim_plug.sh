@@ -10,7 +10,7 @@ VIM_PLUG="$HOME/.local/share/nvim/site/autoload/plug.vim"
 echo "Installing Vim Plug...";
 update_plugins() {
       echo "Installing and updating plugins...";
-      if ! nvim --headless +PlugInstall +PlugClean! +UpdatePlugins +UpdateRemotePlugins +qall > /dev/null 2>&1; then
+      if ! nvim --headless +PlugUpdate! +UpdateRemotePlugins +qa > /dev/null 2>&1; then
           echo "Unable to install and update plugins.";
       else
           echo "Vim plugins are installed and updated.";
