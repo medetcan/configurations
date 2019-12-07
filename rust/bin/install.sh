@@ -11,7 +11,7 @@ if ! curl -f --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y 
  echo "Unable to install rust";
  exit 1;
 else
- echo "Rust installed.";
+ echo "Rust is installed.";
  exit 0;
 fi;
 
