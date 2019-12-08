@@ -21,6 +21,7 @@ fi;
 }
 
 extract_file() {
+    echo "Extracting the installer...";
     if tar xf "$TMP/$FILE_NAME" -C $TMP --strip-components=1 && rm "$TMP/$FILE_NAME" > /dev/null 2>&1; then
         echo "$FILE_NAME is extracted";
     else
@@ -41,5 +42,5 @@ install() {
 
 download_file;
 extract_file;
-install
+install;
 exit 0;
