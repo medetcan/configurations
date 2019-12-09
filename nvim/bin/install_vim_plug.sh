@@ -3,9 +3,7 @@
 set -o errexit;
 set -o nounset;
 
-OKAY=$'\u2714'
-FAILED=$'\u2715'
-VIM_PLUG="$HOME/.local/share/nvim/site/autoload/plug.vim"
+VIM_PLUG="${HOME}/.local/share/nvim/site/autoload/plug.vim"
 
 echo "Installing Vim Plug...";
 update_plugins() {

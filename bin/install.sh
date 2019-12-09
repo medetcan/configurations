@@ -10,4 +10,8 @@ VSCODE="${PROJECT_ROOT}/vscode/bin/install.sh";
 RUST="${PROJECT_ROOT}/rust/bin/install.sh";
 TEX="${PROJECT_ROOT}/tex/bin/install.sh";
 
-echo $PROJECT_ROOT;
+$PACKAGES;
+$NVIM;
+$VSCODE;
+$RUST;
+$TEX;
