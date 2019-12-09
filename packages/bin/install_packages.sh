@@ -29,6 +29,7 @@ declare -A packages=(
   ["python3-dev"]="apt python3-dev -y -qq"
   ["build-essential"]="apt build-essential -y -qq"
   ["git"]="apt git -y -qq"
+  ["curl"]="apt curl -y -qq"
   ["gnome-tweaks"]="apt gnome-tweaks -y -qq"
   ["dash-to-dock"]="apt gnome-shell-extension-dashtodock -y -qq"
 )
