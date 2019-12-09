@@ -7,3 +7,5 @@ set expandtab
 set nobackup
 set noswapfile
 set nowritebackup
+set cursorline
+set undolevels=1000
