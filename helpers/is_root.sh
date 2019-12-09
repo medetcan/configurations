@@ -3,10 +3,9 @@
 set -o errexit;
 set -o nounset;
 
-
-if [ ! -e $1 ]; then
-    echo "$1 is not a file. Exiting..."
+if (( $EUID != 0 )); then
+    echo "Please run as root"
     exit 1;
-fi;
+fi
 
 exit 0;

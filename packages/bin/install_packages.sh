@@ -3,6 +3,7 @@
 set -o nounset
 set -o errexit
 
+PROJECT_ROOT=$(dirname $(dirname $(dirname $(realpath "$0"))));
 OKAY=$'\u2714'
 FAILED=$'\u2715'
 SNAP="snap install"
@@ -71,6 +72,7 @@ install_packages() {
   done
 }
 
+${PROJECT_ROOT}/helpers/is_root.sh;
 display_packages
 install_packages 
 display_installed_packages
