@@ -20,6 +20,7 @@ declare -A packages=(
   ["webstorm"]="snap webstorm --classic"
   ["pycharm-professional"]="snap pycharm-professional --classic"
   ["android-studio"]="snap android-studio --classic"
+  ["tldr"]="snap tldr"
   ["default-jdk"]="apt default-jdk -y -qq"
   ["openjdk-8-jdk"]="apt openjdk-8-jdk -y -qq"
   ["openjdk-11-jdk"]="apt openjdk-11-jdk -y -qq"
@@ -31,6 +32,7 @@ declare -A packages=(
   ["git"]="apt git -y -qq"
   ["curl"]="apt curl -y -qq"
   ["gnome-tweaks"]="apt gnome-tweaks -y -qq"
+  ["gnome-shell-extensions"]="apt gnome-shell-extensions -y -qq"
   ["dash-to-dock"]="apt gnome-shell-extension-dashtodock -y -qq"
 )
 
