@@ -51,9 +51,9 @@ display_installed_packages() {
 }
 
 install_package() {
-  echo "Starting to install_packages $2"
+  echo "Installing $2..."
   if ! $1 $3 $2 >/dev/null 2>&1; then
-    echo "Failed to install_packages $2"
+    echo "Failed to $2"
     installed_packages+=([$2]="$2 $FAILED")
   else
     echo "$2 installed"
