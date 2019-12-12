@@ -1,0 +1,17 @@
+[
+    {
+        "name" : "node",
+        "type" : "snap",
+        "arguments" : ["--classic", "--channel=12"]
+    },
+    {
+        "name" : "code",
+        "type" : "snap",
+        "arguments" : ["--classic"]
+    },
+    {
+        "name" : "postman",
+        "type" : "snap",
+        "arguments" : []
+    }
+]
