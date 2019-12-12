@@ -13,5 +13,111 @@
         "name" : "postman",
         "type" : "snap",
         "arguments" : []
+    },
+    {
+        "name" : "cmake",
+        "type" : "snap",
+        "arguments" : ["--classic"]
+    },
+    {
+        "name" : "clion",
+        "type" : "snap",
+        "arguments" : ["--classic"]
+    },
+    {
+        "name" : "datagrip",
+        "type" : "snap",
+        "arguments" : ["--classic"]
+    },
+    {
+        "name" : "intellij-idea-ultimate",
+        "type" : "snap",
+        "arguments" : ["--classic"]
+    },
+    {
+        "name" : "webstorm",
+        "type" : "snap",
+        "arguments" : ["--classic"]
+    },
+    {
+        "name" : "pycharm-professional",
+        "type" : "snap",
+        "arguments" : ["--classic"]
+    },
+    {
+        "name" : "android-studio",
+        "type" : "snap",
+        "arguments" : ["--classic"]
+    },
+    {
+        "name" : "tldr",
+        "type" : "snap",
+        "arguments" : []
+    },
+    {
+        "name" : "default-jdk",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "openjdk-8-jdk",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "openjdk-11-jdk",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "openjdk-13-jdk",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "neovim",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "pip3",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "python3-dev",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "build-essential",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "git",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "curl",
+        "type" : "apt",
+        "arguments" : ["-y" , "-qq"]
+    },
+    {
+        "name" : "gnome-tweaks",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "gnome-shell-extensions",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
+    },
+    {
+        "name" : "dash-to-dock",
+        "type" : "apt",
+        "arguments" : ["-y", "-qq"]
     }
+
 ]
