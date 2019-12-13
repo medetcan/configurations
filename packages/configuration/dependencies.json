@@ -1,122 +1,146 @@
 [
     {
         "name" : "node",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "server",
         "arguments" : ["--classic", "--channel=12"]
     },
     {
         "name" : "code",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "workstation",
         "arguments" : ["--classic"]
     },
     {
         "name" : "postman",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "workstation",
         "arguments" : []
     },
     {
         "name" : "cmake",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "server",
         "arguments" : ["--classic"]
     },
     {
         "name" : "clion",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "workstation",
         "arguments" : ["--classic"]
     },
     {
         "name" : "datagrip",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "workstation",
         "arguments" : ["--classic"]
     },
     {
         "name" : "intellij-idea-ultimate",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "workstation",
         "arguments" : ["--classic"]
     },
     {
         "name" : "webstorm",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "workstation",
         "arguments" : ["--classic"]
     },
     {
         "name" : "pycharm-professional",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "workstation",
         "arguments" : ["--classic"]
     },
     {
         "name" : "android-studio",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "workstation",
         "arguments" : ["--classic"]
     },
     {
         "name" : "tldr",
-        "type" : "snap",
+        "pm" : "snap",
+        "type" : "server",
         "arguments" : []
     },
     {
         "name" : "default-jdk",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "openjdk-8-jdk",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "openjdk-11-jdk",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "openjdk-13-jdk",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "neovim",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "pip3",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "python3-dev",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "build-essential",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "git",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "curl",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "server",
         "arguments" : ["-y" , "-qq"]
     },
     {
         "name" : "gnome-tweaks",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "workstation",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "gnome-shell-extensions",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "workstation",
         "arguments" : ["-y", "-qq"]
     },
     {
         "name" : "dash-to-dock",
-        "type" : "apt",
+        "pm" : "apt",
+        "type" : "workstation",
         "arguments" : ["-y", "-qq"]
     }
 
