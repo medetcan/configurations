@@ -1,12 +1,11 @@
 #!/bin/bash
 
-set -o nounset;
 set -o errexit;
 
 
 PROJECT_ROOT=$(dirname $(dirname $(dirname $(realpath "$0"))))
 
-help() {
+display_help() {
     echo "Help!";
 }
 
@@ -34,15 +33,33 @@ display_installed_packages() {
     echo "Hello";
 }
 
-# --filter; type=server,type=workstation...
-#
-# --exclude; intellij-idea-ultimate
 filter_packages() {
-    echo "Hello";
+    while [ -n "${1}" ]; do
+        case "$1" in
+            --exclude)
+                echo "$2";
+                shift;
+                ;;
+            --select)
+                echo "$2";
+                shift;
+                ;;
+            --help)
+                display_help;
+                shift;
+                ;;
+            *)
+                display_help;
+                shift;
+                ;;
+        esac;
+    done;
 }
 
 command_exists;
-#jq '.[] | .type=="server" ' $PROJECT_ROOT/packages/configuration/dependencies.json;
-PACKAGES=$(jq '.[] | select( .type =="server") | (.name)' $PROJECT_ROOT/packages/configuration/dependencies.json);
+PACKAGES=$(jq '.[] | select( .type =="server" or .type=="workstation" ) | (.name)' $PROJECT_ROOT/packages/configuration/dependencies.json);
 
-display_packages $PACKAGES;
+#echo $PACKAGES;
+#display_packages $PACKAGES;
+
+filter_packages --select type=server,name=intellij-idea;
