@@ -4,12 +4,15 @@ set -o errexit;
 
 
 PROJECT_ROOT=$(dirname $(dirname $(dirname $(realpath "$0"))))
+FILTER="";
+EXCLUDE=".";
+DEPENDENCIES="$PROJECT_ROOT/packages/configuration/dependencies.json";
+IFS=;
 
 display_help() {
     echo "Help!";
 }
 
-# Command Exist?
 command_exists() {
     if ! $PROJECT_ROOT/helpers/command_exists.sh "jq" > /dev/null 2>&1 ; then
         echo "jq command does not exist. Installing..." 
@@ -22,11 +25,12 @@ command_exists() {
 }
 
 display_packages() {
-    local PACKAGES=$@;
     echo "Following Packages Will Be Installed;"
-    for PACKAGE in $PACKAGES; do
-        echo "[] $PACKAGE";
-    done;
+    if [ -n "${1}" ]; then
+        while read -r PACKAGE; do
+            echo "[] $PACKAGE"
+        done <<< $1;
+    fi;
 }
 
 display_installed_packages() {
@@ -34,32 +38,50 @@ display_installed_packages() {
 }
 
 filter_packages() {
+    local OLDIFS=$IFS
+    IFS="="; read -r KEY VALUE <<< $1;
+    FILTER+=" | select ( .${KEY}==\"${VALUE}\" )";
+    IFS=$OLDIFS
+}
+
+exclude_packages() {
+    local OLDIFS=$IFS
+    IFS="="; read -r KEY VALUE <<< $1;
+    FILTER+=" | select ( .${KEY}!=\"${VALUE}\" )";
+    IFS=$OLDIFS
+}
+
+install_packages() {
     while [ -n "${1}" ]; do
         case "$1" in
-            --exclude)
-                echo "$2";
+            --list | -l)
+                display_packages $(jq ".[] ${FILTER} | .name" $DEPENDENCIES);
+                exit 0;
+                ;;
+            --exclude | -e)
+                exclude_packages $2;
                 shift;
                 ;;
-            --select)
-                echo "$2";
+            --filter | -f)
+                filter_packages $2;
                 shift;
                 ;;
             --help)
                 display_help;
-                shift;
+                exit 0;
                 ;;
             *)
                 display_help;
-                shift;
+                exit 0;
                 ;;
         esac;
+        shift;
     done;
 }
 
 command_exists;
-PACKAGES=$(jq '.[] | select( .type =="server" or .type=="workstation" ) | (.name)' $PROJECT_ROOT/packages/configuration/dependencies.json);
-
+install_packages --filter type=server --exclude name=node -e name=cmake --list;
+PACKAGES=$(jq ".[] ${FILTER}" $DEPENDENCIES);
 #echo $PACKAGES;
-#display_packages $PACKAGES;
 
-filter_packages --select type=server,name=intellij-idea;
+
