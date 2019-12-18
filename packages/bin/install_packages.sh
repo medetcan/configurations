@@ -1,81 +1,122 @@
 #!/bin/bash
 
-set -o nounset
-set -o errexit
+set -o errexit;
 
-PROJECT_ROOT=$(dirname $(dirname $(dirname $(realpath "$0"))));
-OKAY=$'\u2714'
-FAILED=$'\u2715'
-SNAP="snap install"
-APT="apt install"
-declare -A installed_packages=()
-declare -A packages=(
-  ["node"]="snap node --classic --channel=12"
-  ["code"]="snap code --classic"
-  ["postman"]="snap postman"
-  ["cmake"]="snap cmake --classic"
-  ["clion"]="snap clion --classic"
-  ["datagrip"]="snap datagrip --classic"
-  ["intellij-idea-ultimate"]="snap intellij-idea-ultimate --classic"
-  ["webstorm"]="snap webstorm --classic"
-  ["pycharm-professional"]="snap pycharm-professional --classic"
-  ["android-studio"]="snap android-studio --classic"
-  ["tldr"]="snap tldr"
-  ["default-jdk"]="apt default-jdk -y -qq"
-  ["openjdk-8-jdk"]="apt openjdk-8-jdk -y -qq"
-  ["openjdk-11-jdk"]="apt openjdk-11-jdk -y -qq"
-  ["openjdk-13-jdk"]="apt openjdk-13-jdk -y -qq"
-  ["neovim"]="apt neovim -y -qq"
-  ["pip3"]="apt python3-pip -y -qq"
-  ["python3-dev"]="apt python3-dev -y -qq"
-  ["build-essential"]="apt build-essential -y -qq"
-  ["git"]="apt git -y -qq"
-  ["curl"]="apt curl -y -qq"
-  ["gnome-tweaks"]="apt gnome-tweaks -y -qq"
-  ["gnome-shell-extensions"]="apt gnome-shell-extensions -y -qq"
-  ["dash-to-dock"]="apt gnome-shell-extension-dashtodock -y -qq"
-)
+PROJECT_ROOT=$(dirname $(dirname $(dirname $(realpath "$0"))))
+DEPENDENCIES="$PROJECT_ROOT/packages/configuration/dependencies.json";
+FILTER="";
+OKAY=$'\u2714';
+FAILED=$'\u2715';
+SNAP="snap install";
+APT="apt install";
+declare -A INSTALLED_PACKAGES=()
+
+display_help() {
+cat <<HEREDOC
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Usage: $0 --filter type=server --exclude name=git --list
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+[--list, -l]            List packages to be installed.
+[--filter, -f]          Filters packages by a given criteria.
+[--filter, -f]          Excludes packages by a given criteria.
+[--help, -h]            Help.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+HEREDOC
+exit 0;
+}
+
+command_exists() {
+    if ! $PROJECT_ROOT/helpers/command_exists.sh "jq" > /dev/null 2>&1 ; then
+        echo "jq command does not exist. Installing..." 
+        if sudo apt install jq -y -qq > /dev/null 2>&1; then
+            echo "jq installed.";
+        else
+            echo "Unable to install jq. Exiting...";
+        fi;
+    fi;
+}
 
 display_packages() {
-  for package in "${packages[@]}"; do
-    IFS=" " read -r TYPE NAME ARGS <<<"$package"
-    echo "[-] $NAME"
-  done
+    echo "Following Packages Will Be Installed;"
+    if [ -n "${1}" ]; then
+        while read -r PACKAGE; do
+            echo -e "[] $PACKAGE"
+        done <<< $1;
+    fi;
 }
 
 display_installed_packages() {
-  for package in "${installed_packages[@]}"; do
-    IFS=" " read -r NAME STATUS <<<"$package"
-    echo -e "["$STATUS"] $NAME"
-  done
+    echo "Following Packages Are Installed;"
+    for package in "${INSTALLED_PACKAGES[@]}"; do
+        IFS=" " read -r NAME STATUS <<<"$package"
+        echo -e "["$STATUS"] $NAME"
+    done;
 }
 
 install_package() {
-  echo "Installing $2..."
-  if ! $1 $3 $2 >/dev/null 2>&1; then
-    echo "Failed to $2"
-    installed_packages+=([$2]="$2 $FAILED")
-  else
-    echo "$2 installed"
-    installed_packages+=([$2]="$2 $OKAY")
-  fi
+    echo "Installing $2..."
+    if ! $1 $3 $2 > /dev/null 2>&1; then
+        echo "Failed to install $2"
+        INSTALLED_PACKAGES+=([$2]="$2 $FAILED")
+    else
+        echo "$2 installed"
+        INSTALLED_PACKAGES+=([$2]="$2 $OKAY")
+    fi;
 }
 
 install_packages() {
-  for package in "${packages[@]}"; do
-    IFS=" " read TYPE NAME ARGS <<<"$package"
-    case "$TYPE" in
-    "apt")
-      install_package "$APT" "$NAME" "$ARGS"
-      ;;
-    "snap")
-      install_package "$SNAP" "$NAME" "$ARGS"
-      ;;
-    esac
-  done
+    local KEYS="$1";
+    local VALUES="$2";
+    while read KEY; do
+        local NAME=$(jq -r ".[$KEY] | .name" <<< "$VALUES");
+        local TYPE=$(jq -r ".[$KEY] | .pm" <<< "$VALUES");
+        local ARGS=$(jq -r ".[$KEY] | .arguments | join(\" \")" <<< "$VALUES");
+        case "$TYPE" in
+            "apt")
+                install_package "$APT" "$NAME" "$ARGS"
+                ;;
+            "snap")
+                install_package "$SNAP" "$NAME" "$ARGS"
+                ;;
+        esac
+    done <<< $KEYS;
+}
+
+filter_packages() {
+    IFS="=" read KEY VALUE <<< $1;
+    FILTER+=" | select ( .${KEY}$2\"${VALUE}\" )";
+}
+
+main() {
+   [ -z "$1" ] && display_help;
+    while [ -n "${1}" ]; do
+        case "$1" in
+            --list | -l)
+                display_packages "$(jq ".[] ${FILTER} | .name" $DEPENDENCIES)";
+                exit 0;
+                ;;
+            --exclude | -e)
+                filter_packages "$2" "!=";
+                shift;
+                ;;
+            --filter | -f)
+                filter_packages "$2" "==";
+                shift;
+                ;;
+            --help)
+                display_help;
+                ;;
+            *)
+                display_help;
+                ;;
+        esac;
+        shift;
+    done;
 }
 
 ${PROJECT_ROOT}/helpers/is_root.sh;
-display_packages
-install_packages 
-display_installed_packages
+command_exists;
+main "$@";
+display_packages "$(jq ".[] ${FILTER} | .name" $DEPENDENCIES)";
+install_packages "$(jq "[.[] ${FILTER}] | keys | .[]" $DEPENDENCIES)" "$(jq "[.[] ${FILTER}]" $DEPENDENCIES)";
+display_installed_packages;

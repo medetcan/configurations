@@ -96,7 +96,7 @@
         "arguments" : ["-y", "-qq"]
     },
     {
-        "name" : "pip3",
+        "name" : "python3-pip",
         "pm" : "apt",
         "type" : "server",
         "arguments" : ["-y", "-qq"]
