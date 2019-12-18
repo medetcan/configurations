@@ -5,12 +5,26 @@ set -o errexit;
 
 PROJECT_ROOT=$(dirname $(dirname $(dirname $(realpath "$0"))))
 FILTER="";
-EXCLUDE=".";
 DEPENDENCIES="$PROJECT_ROOT/packages/configuration/dependencies.json";
 IFS=;
+OKAY=$'\u2714';
+FAILED=$'\u2715';
+SNAP="snap install";
+APT="apt install";
+declare -A INSTALLED_PACKAGES=()
 
 display_help() {
-    echo "Help!";
+cat <<HEREDOC
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Usage: $0 --filter type=server --exclude name=git --list
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+[--list, -l]            List packages to be installed.
+[--filter, -f]          Filters packages by a given criteria.
+[--filter, -f]          Excludes packages by a given criteria.
+[--help, -h]            Help.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+HEREDOC
+exit 0;
 }
 
 command_exists() {
@@ -34,24 +48,53 @@ display_packages() {
 }
 
 display_installed_packages() {
-    echo "Hello";
+  for package in "${INSTALLED_PACKAGES[@]}"; do
+    IFS=" " read -r NAME STATUS <<<"$package"
+    echo -e "["$STATUS"] $NAME"
+  done
 }
 
-filter_packages() {
-    local OLDIFS=$IFS
-    IFS="="; read -r KEY VALUE <<< $1;
-    FILTER+=" | select ( .${KEY}==\"${VALUE}\" )";
-    IFS=$OLDIFS
-}
-
-exclude_packages() {
-    local OLDIFS=$IFS
-    IFS="="; read -r KEY VALUE <<< $1;
-    FILTER+=" | select ( .${KEY}!=\"${VALUE}\" )";
-    IFS=$OLDIFS
+install_package() {
+  echo "Installing $2..."
+  if ! $1 $3 $2 2>&1; then
+    echo "Failed to install $2"
+    INSTALLED_PACKAGES+=([$2]="$2 $FAILED")
+  else
+    echo "$2 installed"
+    INSTALLED_PACKAGES+=([$2]="$2 $OKAY")
+  fi
 }
 
 install_packages() {
+    local KEYS=$1;
+    local VALUES=$2;
+    while read KEY; do
+        local NAME=$(jq -r ".[$KEY] | .name" <<< "$VALUES");
+        local TYPE=$(jq -r ".[$KEY] | .pm" <<< "$VALUES");
+        local ARGS=$(jq -r ".[$KEY] | .arguments | join(\" \")" <<< "$VALUES");
+        case "$TYPE" in
+            "apt")
+                install_package "$APT" "$NAME" "$ARGS"
+                ;;
+            "snap")
+                install_package "$SNAP" "$NAME" "$ARGS"
+                ;;
+        esac
+    done <<< $KEYS;
+}
+
+filter_packages() {
+    local IFS="="; read KEY VALUE <<< $1;
+    FILTER+=" | select ( .${KEY}==\"${VALUE}\" )";
+}
+
+exclude_packages() {
+    local IFS="="; read KEY VALUE <<< $1;
+    FILTER+=" | select ( .${KEY}!=\"${VALUE}\" )";
+}
+
+main() {
+   [ -z "$1" ] && display_help;
     while [ -n "${1}" ]; do
         case "$1" in
             --list | -l)
@@ -68,20 +111,18 @@ install_packages() {
                 ;;
             --help)
                 display_help;
-                exit 0;
                 ;;
             *)
                 display_help;
-                exit 0;
                 ;;
         esac;
         shift;
     done;
 }
 
+${PROJECT_ROOT}/helpers/is_root.sh;
 command_exists;
-install_packages --filter type=server --exclude name=node -e name=cmake --list;
-PACKAGES=$(jq ".[] ${FILTER}" $DEPENDENCIES);
-#echo $PACKAGES;
-
-
+main "$@";
+display_packages $(jq ".[] ${FILTER} | .name" $DEPENDENCIES);
+install_packages $(jq "[.[] ${FILTER}] | keys | .[]" $DEPENDENCIES) $(jq "[.[] ${FILTER}]" $DEPENDENCIES);
+display_installed_packages;
