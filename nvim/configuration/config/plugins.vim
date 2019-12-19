@@ -3,7 +3,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'wlangstroth/vim-racket'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
 Plug 'dracula/vim', { 'as': 'dracula' }

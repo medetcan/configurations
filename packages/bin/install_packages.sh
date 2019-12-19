@@ -32,6 +32,7 @@ command_exists() {
             echo "jq installed.";
         else
             echo "Unable to install jq. Exiting...";
+            exit 1;
         fi;
     fi;
 }
@@ -88,7 +89,6 @@ filter_packages() {
 }
 
 main() {
-   [ -z "$1" ] && display_help;
     while [ -n "${1}" ]; do
         case "$1" in
             --list | -l)
