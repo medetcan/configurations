@@ -11,7 +11,7 @@ DESTINATION=$2;
 $PROJECT_ROOT/helpers/is_directory.sh $TARGET;
 $PROJECT_ROOT/helpers/is_directory.sh $DESTINATION;
 echo "Creating symbolic links...";
-if ! cp -rfs $TARGET $DESTINATION > /dev/null 2>&1; then
+if ! ln -sf $TARGET $DESTINATION > /dev/null 2>&1; then
     echo "Failed to create symbolics link from $TARGET to $DESTINATION";
 else
     echo "Successfully symbolic link created from $TARGET to $DESTINATION";

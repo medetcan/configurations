@@ -120,3 +120,4 @@ main "$@";
 display_packages "$(jq ".[] ${FILTER} | .name" $DEPENDENCIES)";
 install_packages "$(jq "[.[] ${FILTER}] | keys | .[]" $DEPENDENCIES)" "$(jq "[.[] ${FILTER}]" $DEPENDENCIES)";
 display_installed_packages;
+exit 0;
