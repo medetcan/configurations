@@ -13,4 +13,7 @@ Plug 'prabirshrestha/async.vim'
 Plug 'neomake/neomake'
 Plug 'jez/vim-better-sml'
 Plug 'valloric/youcompleteme', { 'do': 'python3 install.py --ts-completer --rust-completer --java-completer --clang-completer' }
+Plug 'derekwyatt/vim-scala'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'scalameta/coc-metals', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()

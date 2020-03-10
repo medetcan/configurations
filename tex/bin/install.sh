@@ -40,6 +40,7 @@ install() {
     fi;
 }
 
+$PROJECT_ROOT/helpers/is_root.sh;
 download_file;
 extract_file;
 install;

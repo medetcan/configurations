@@ -9,3 +9,6 @@ set noswapfile
 set nowritebackup
 set cursorline
 set undolevels=1000
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
