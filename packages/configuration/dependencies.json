@@ -3,7 +3,7 @@
         "name" : "node",
         "pm" : "snap",
         "type" : "server",
-        "arguments" : ["--classic", "--channel=12"]
+        "arguments" : ["--classic", "--channel=12/stable"]
     },
     {
         "name" : "code",
